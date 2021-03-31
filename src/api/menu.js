@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 export function getList(params) {
   return request({
-    url: '/vue-admin-template/menu/list',
+    url: '/menu/list',
     method: 'get',
     params
   })

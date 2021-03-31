@@ -223,7 +223,7 @@ const list = [
 
 module.exports = [
   {
-    url: '/vue-admin-template/menu/list',
+    url: '/menu/list',
     type: 'get',
     response: config => {
       return {

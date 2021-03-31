@@ -201,7 +201,7 @@ const routes = [
 module.exports = [
   // get routes
   {
-    url: '/vue-admin-template/permission/getroutes',
+    url: '/permission/getroutes',
     type: 'get',
     response: () => {
       return {

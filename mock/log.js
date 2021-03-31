@@ -15,7 +15,7 @@ const data = Mock.mock({
 
 module.exports = [
   {
-    url: '/vue-admin-template/log/list',
+    url: '/log/list',
     type: 'get',
     response: config => {
       const { page, limit, created_at, level, method, keyword } = config.query

@@ -27,7 +27,7 @@ const category = Mock.mock({
 
 module.exports = [
   {
-    url: '/vue-admin-template/article/list',
+    url: '/article/list',
     type: 'get',
     response: config => {
       const { page, limit, created_at, category, status, keyword } = config.query
@@ -63,7 +63,7 @@ module.exports = [
     }
   },
   {
-    url: '/vue-admin-template/article/category',
+    url: '/article/category',
     type: 'get',
     response: config => {
       const { page, limit, keyword } = config.query

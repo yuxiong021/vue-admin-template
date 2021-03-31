@@ -12,7 +12,7 @@ const data = Mock.mock({
 
 module.exports = [
   {
-    url: '/vue-admin-template/link/list',
+    url: '/link/list',
     type: 'get',
     response: config => {
       const { page, limit, keyword } = config.query
