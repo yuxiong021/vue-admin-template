@@ -1,6 +1,27 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
+      <el-date-picker
+        v-model="listQuery.created_at"
+        size="small"
+        type="datetimerange"
+        range-separator="-"
+        start-placeholder="上市日期"
+        end-placeholder="截至日期"
+        value-format="yyyyMMdd"
+        class="filter-item"
+        :editable="false"
+      />
+      <el-select
+        v-model="listQuery.industry"
+        size="small"
+        placeholder="选择行业"
+        clearable
+        class="filter-item"
+        :data="industries"
+      >
+        <el-option v-for="(item) in industries" :label="item" :value="item" />
+      </el-select>
       <el-input
         v-model="listQuery.keyword"
         size="small"
@@ -25,13 +46,6 @@
         >
           重置
         </el-button>
-        <el-button
-          size="small"
-          type="primary"
-          icon="el-icon-plus"
-          @click="add"
-        >
-          新增
         </el-button>
       </el-button-group>
     </div>
@@ -49,11 +63,101 @@
       <el-table-column
         fixed
         label="Code"
-        width="80"
+        width="100"
         align="center"
       >
         <template slot-scope="scope">
           {{ scope.row['tsb.ts_code'] }}
+        </template>
+      </el-table-column>
+      <el-table-column
+        fixed
+        label="名称"
+        width="100"
+        align="center"
+      >
+        <template slot-scope="scope">
+          {{ scope.row['tsb.name'] }}
+        </template>
+      </el-table-column>
+      <el-table-column
+        fixed
+        label="所属行业"
+        width="100"
+        align="center"
+      >
+        <template slot-scope="scope">
+          {{ scope.row['tsb.industry'] }}
+        </template>
+      </el-table-column>
+      <el-table-column
+        fixed
+        label="地区"
+        width="100"
+        align="center"
+      >
+        <template slot-scope="scope">
+          {{ scope.row['tsb.area'] }}
+        </template>
+      </el-table-column>
+      <el-table-column
+        fixed
+        label="市盈率"
+        width="100"
+        align="center"
+      >
+        <template slot-scope="scope">
+          {{ scope.row['tdb.pe'] }}
+        </template>
+      </el-table-column>
+      <el-table-column
+        fixed
+        label="市净率"
+        width="100"
+        align="center"
+      >
+        <template slot-scope="scope">
+          {{ scope.row['tdb.pb'] }}
+        </template>
+      </el-table-column>
+      <el-table-column
+        fixed
+        label="换手率"
+        width="100"
+        align="center"
+      >
+        <template slot-scope="scope">
+          {{ scope.row['tdb.turnover_rate'] }}
+        </template>
+      </el-table-column>
+      <el-table-column
+        fixed
+        label="流通股本(亿股)"
+        width="120"
+        align="center"
+      >
+        <template slot-scope="scope">
+          {{ scope.row['tdb.float_share'] | numFilter}}
+        </template>
+      </el-table-column>
+      <el-table-column
+        fixed
+        label="总股本(亿股)"
+        width="120"
+        align="center"
+      >
+        <template slot-scope="scope">
+          {{ scope.row['tdb.total_share'] | numFilter}}
+        </template>
+      </el-table-column>
+      <el-table-column
+        fixed
+        label="上市日期"
+        width="100"
+        align="center"
+      >
+        <template slot-scope="scope">
+          {{ scope.row['tsb.list_date'] }}
         </template>
       </el-table-column>
     </el-table>
@@ -118,10 +222,19 @@ export default {
   components: {
     Pagination
   },
+  filters: {
+    numFilter(value) {
+      // 截取当前数据到小数点后两位
+      let realVal = (Number(value)/10000).toFixed(2)
+      // num.toFixed(2)获取的是字符串
+      return Number(realVal)
+    }
+  },
   data() {
     return {
       total: 0,
       list: [],
+      industries: [],
       menus: [],
       listLoading: true,
       listQuery: {
@@ -159,6 +272,7 @@ export default {
       getList(this.listQuery).then(response => {
         this.list = response.data.items
         this.total = response.data.total
+        this.industries = response.data.industries
         this.listLoading = false
       })
     },
